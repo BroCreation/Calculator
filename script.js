@@ -20,7 +20,6 @@ let num1 = 0, num2 = 0, operator, result;
 
 // DOM elements
 const display = document.querySelector('input.display')
-const backspace = document.querySelector('.backspace')
 const numbers = document.querySelector('.numbers')
 const operations = document.querySelector('.operations')
 const buttons = document.querySelector('.btn-container')
@@ -30,7 +29,6 @@ numbers.addEventListener('click', clearEvaluate)
 numbers.addEventListener('click', evaluateOperation)
 operations.addEventListener('click', setOperator)
 operations.addEventListener('click', makeSelected)
-backspace.addEventListener('click', removeDigit)
 
 let numberString = ""
 function setNumber(e) {
@@ -79,8 +77,8 @@ function resetCalculator() {
     numberString = ""
     operator = ""
     result = null
-    num1 = null
-    num2 = null
+    num1 = 0
+    num2 = 0
     display.value = 0
 }
 
@@ -88,24 +86,20 @@ function evaluateOperation() {
     if((num1 || num1 === 0) && (num2 || num2 === 0) && operator) {
         switch(operator) {
             case '+':
-                result = add(num1, num2);
+                result = roundResult(add(num1, num2));
                 break;
             case '-':
-                result = subtract(num1, num2);
+                result = roundResult(subtract(num1, num2));
                 break;
             case '*':
-                result = multiply(num1, num2);
+                result = roundResult(multiply(num1, num2));
                 break;
             case '/':
-                result = divide(num1, num2);
+                result = roundResult(divide(num1, num2));
                 break;
         }
     }
 }
-
-buttons.addEventListener('click', (e) => {
-    console.log('NUM 1: ', num1, 'NUM2: ', num2, 'Result: ', result, 'operator: ', operator, 'numberString: ', numberString)
-})
 
 function setResult() {
     // sets num1 to result and num2 to 0
@@ -117,9 +111,8 @@ function setResult() {
     } 
 }
 
-function removeDigit() {
-    numberString = numberString.slice(0, -1)
-    display.value = numberString
+function roundResult(result) {
+    return Math.round(result * 1000) / 1000
 }
 
 function makeSelected(e) {
@@ -142,6 +135,14 @@ display.addEventListener('keypress', (e) => {
         if (e.key === key) {
             e.preventDefault()
         }
+    }
+})
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault() // very helpful
+        evaluateOperation();
+        setResult()
     }
 })
 
