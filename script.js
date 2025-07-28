@@ -22,11 +22,13 @@ let num1 = null, num2 = null, operator, result;
 const display = document.querySelector('input.display')
 const numbers = document.querySelector('.numbers')
 const operations = document.querySelector('.operations')
+const buttons = document.querySelector('.btn-container')
 
 numbers.addEventListener('click', setNumber)
 numbers.addEventListener('click', clearEvaluate)
 numbers.addEventListener('click', evaluateOperation)
 operations.addEventListener('click', setOperator)
+operations.addEventListener('click', makeSelected)
 
 let numberString = ""
 function setNumber(e) {
@@ -99,15 +101,29 @@ function evaluateOperation() {
     }
 }
 
+buttons.addEventListener('click', (e) => {
+    console.log('NUM 1: ', num1, 'NUM2: ', num2, 'Result: ', result, 'operator: ', operator, 'numberString: ', numberString)
+})
+
 function setResult() {
     // sets num1 to result and num2 to 0
     if (result || result === 0) {
+        numberString = ""
         num1 = result
         num2 = 0
         display.value = result
     } 
 }
 
+function makeSelected(e) {
+    const targets = document.querySelectorAll('.operation')
+    targets.forEach(target => {
+        if(target.classList.contains('selected')) {
+            target.classList.remove('selected')
+        }
+    })
+    e.target.classList.add('selected')
+}
 
 display.addEventListener('keypress', (e) => {
     const badKeys = ['.', ..."abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split('')]
