@@ -25,8 +25,8 @@ const operations = document.querySelector('.operations')
 
 numbers.addEventListener('click', setNumber)
 numbers.addEventListener('click', clearEvaluate)
+numbers.addEventListener('click', evaluateOperation)
 operations.addEventListener('click', setOperator)
-operations.addEventListener('click', evaluateOperation)
 
 let numberString = ""
 function setNumber(e) {
@@ -53,6 +53,7 @@ function clearEvaluate(e) {
             break;
         case "evaluate":
             evaluateOperation();
+            setResult()
             break;
     }
 }
@@ -64,6 +65,7 @@ function setOperator(e) {
     }
     
     numberString = ""
+    setResult()
 }
 
 function hasOperator() {
@@ -74,6 +76,7 @@ function clearDisplay() {
     num1 = 0;
     num2 = 0;
     result = 0;
+    numberString = ""
     display.value = 0
 }
 
@@ -94,10 +97,12 @@ function evaluateOperation() {
                 break;
         }
     }
+}
 
-    if (result) {
+function setResult() {
+    if (result || result === 0) {
         num1 = result
         num2 = 0
         display.value = result
-    }
+    } 
 }
