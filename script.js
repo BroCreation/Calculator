@@ -20,6 +20,7 @@ let num1 = 0, num2 = 0, operator, result;
 
 // DOM elements
 const display = document.querySelector('input.display')
+const backspace = document.querySelector('.backspace')
 const numbers = document.querySelector('.numbers')
 const operations = document.querySelector('.operations')
 const buttons = document.querySelector('.btn-container')
@@ -29,6 +30,7 @@ numbers.addEventListener('click', clearEvaluate)
 numbers.addEventListener('click', evaluateOperation)
 operations.addEventListener('click', setOperator)
 operations.addEventListener('click', makeSelected)
+backspace.addEventListener('click', removeDigit)
 
 let numberString = ""
 function setNumber(e) {
@@ -72,8 +74,6 @@ function setOperator(e) {
     setResult()
 }
 
-// PROBLEM: when call reset num1 is not set to result so it is set to null with
-// operator selected, so num2 is being taken only.
 function resetCalculator() {
     removeSelectedClass()
     numberString = ""
@@ -114,6 +114,11 @@ function setResult() {
         num1 = result
         display.value = result
     } 
+}
+
+function removeDigit() {
+    numberString = numberString.slice(0, -1)
+    display.value = numberString
 }
 
 function makeSelected(e) {

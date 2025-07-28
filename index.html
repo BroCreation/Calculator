@@ -10,9 +10,13 @@
 <body>
     <div class="wrapper">
         <h1>Epic Calculator</h1>
-        <input class="display" type="text">
+        <div class="display-container">
+            <input class="display" type="text">
+            <button class="backspace">&#x232B;</button>
+        </div>
         <div class="btn-container">
             <div class="numbers">
+                <button value="clear" class="yellow clear">AC</button>
                 <button value="9" class="number">9</button>
                 <button value="8" class="number">8</button>
                 <button value="7" class="number">7</button>
@@ -23,8 +27,7 @@
                 <button value="2" class="number">2</button>
                 <button value="1" class="number">1</button>
                 <button value="0" class="number">0</button>
-                <button value="clear" class="final clear">AC</button>
-                <button value="evaluate" class="final evaluate">=</button>
+                <button value="evaluate" class="yellow evaluate">=</button>
             </div>
             <div class="operations">
                 <button value="+" class="operation">+</button>
