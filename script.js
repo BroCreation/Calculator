@@ -16,7 +16,7 @@ function divide(a, b) {
 }
 
 // Variables
-let num1 = null, num2 = null, operator, result;
+let num1 = 0, num2 = 0, operator, result;
 
 // DOM elements
 const display = document.querySelector('input.display')
@@ -39,7 +39,7 @@ function setNumber(e) {
     }
 
     if (numberString) {
-        if (!hasOperator()) {
+        if (!operator) {
             num1 = Number(numberString)
         } else {
             num2 = Number(numberString)
@@ -53,7 +53,7 @@ function clearEvaluate(e) {
     // Other operations
     switch(e.target.value) {
         case "clear":
-            resetDisplay();
+            resetCalculator();
             break;
         case "evaluate":
             evaluateOperation();
@@ -72,14 +72,16 @@ function setOperator(e) {
     setResult()
 }
 
-function hasOperator() {
-    return (operator !== undefined)
-}
-
-function resetDisplay() {
+// PROBLEM: when call reset num1 is not set to result so it is set to null with
+// operator selected, so num2 is being taken only.
+function resetCalculator() {
+    removeSelectedClass()
     numberString = ""
-    result = 0
-    setResult()
+    operator = ""
+    result = null
+    num1 = null
+    num2 = null
+    display.value = 0
 }
 
 function evaluateOperation() {
@@ -110,19 +112,22 @@ function setResult() {
     if (result || result === 0) {
         numberString = ""
         num1 = result
-        num2 = 0
         display.value = result
     } 
 }
 
 function makeSelected(e) {
+    removeSelectedClass()
+    e.target.classList.add('selected')
+}
+
+function removeSelectedClass() {
     const targets = document.querySelectorAll('.operation')
     targets.forEach(target => {
         if(target.classList.contains('selected')) {
             target.classList.remove('selected')
         }
     })
-    e.target.classList.add('selected')
 }
 
 display.addEventListener('keypress', (e) => {
