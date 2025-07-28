@@ -36,10 +36,12 @@ function setNumber(e) {
         display.value = numberString
     }
 
-    if (!hasOperator()) {
-        num1 = Number(numberString)
-    } else {
-        num2 = Number(numberString)
+    if (numberString) {
+        if (!hasOperator()) {
+            num1 = Number(numberString)
+        } else {
+            num2 = Number(numberString)
+        }
     }
 
     display.scrollLeft = display.scrollWidth
@@ -49,7 +51,7 @@ function clearEvaluate(e) {
     // Other operations
     switch(e.target.value) {
         case "clear":
-            clearDisplay();
+            resetDisplay();
             break;
         case "evaluate":
             evaluateOperation();
@@ -72,16 +74,14 @@ function hasOperator() {
     return (operator !== undefined)
 }
 
-function clearDisplay() {
-    num1 = 0;
-    num2 = 0;
-    result = 0;
+function resetDisplay() {
     numberString = ""
-    display.value = 0
+    result = 0
+    setResult()
 }
 
 function evaluateOperation() {
-    if(num1 && num2 && operator) {
+    if((num1 || num1 === 0) && (num2 || num2 === 0) && operator) {
         switch(operator) {
             case '+':
                 result = add(num1, num2);
@@ -100,9 +100,20 @@ function evaluateOperation() {
 }
 
 function setResult() {
+    // sets num1 to result and num2 to 0
     if (result || result === 0) {
         num1 = result
         num2 = 0
         display.value = result
     } 
 }
+
+
+display.addEventListener('keypress', (e) => {
+    const badKeys = ['.', ..."abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split('')]
+    for (let key of badKeys) {
+        if (e.key === key) {
+            e.preventDefault()
+        }
+    }
+})
