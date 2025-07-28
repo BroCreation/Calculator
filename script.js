@@ -112,6 +112,7 @@ function setResult() {
     if (result || result === 0) {
         numberString = ""
         num1 = result
+        num2 = null
         display.value = result
     } 
 }
@@ -143,3 +144,10 @@ display.addEventListener('keypress', (e) => {
         }
     }
 })
+
+// Logic
+// TODO : remove numberstring and make it so user appends number to display
+// as he chooses the operation, first number is stored with the operator
+// then flag is toggled to true, so new number gets appended directly to display
+// after clearing it first. that is the loop. Append Number, choose operator, store values and
+// get new number after clearing the display. finally show the result on display. repeat.
