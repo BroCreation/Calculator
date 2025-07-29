@@ -31,13 +31,15 @@ operations.addEventListener('click', setOperator)
 operations.addEventListener('click', makeSelected)
 
 let numberString = ""
+let hasTypedNewNumber = false
 function setNumber(e) {
     const value = Number(e.target.value)
     if(!isNaN(value)) {
         numberString += value
         display.value = numberString
+        hasTypedNewNumber = true
     }
-
+        
     if (numberString) {
         if (!operator) {
             num1 = Number(numberString)
@@ -46,7 +48,7 @@ function setNumber(e) {
         }
     }
 
-    display.scrollLeft = display.scrollWidth
+    display.scrollLeft = display.scrollWidth // helps to see values
 }
 
 function clearEvaluate(e) {
@@ -63,14 +65,20 @@ function clearEvaluate(e) {
 }
 
 function setOperator(e) {
-    const value = e.target.value
-    if (value !== undefined) {
-        operator = value
+    const value = e.target.value;
+
+    if (value === undefined) return;
+
+    if (operator && hasTypedNewNumber) {
+        evaluateOperation();
+        setResult();
     }
-    
-    numberString = ""
-    setResult()
+
+    operator = value;
+    numberString = "";
+    hasTypedNewNumber = false;
 }
+
 
 function resetCalculator() {
     removeSelectedClass()
@@ -83,20 +91,26 @@ function resetCalculator() {
 }
 
 function evaluateOperation() {
-    if((num1 || num1 === 0) && (num2 || num2 === 0) && operator) {
-        switch(operator) {
-            case '+':
-                result = roundResult(add(num1, num2));
-                break;
-            case '-':
-                result = roundResult(subtract(num1, num2));
-                break;
-            case '*':
-                result = roundResult(multiply(num1, num2));
-                break;
-            case '/':
-                result = roundResult(divide(num1, num2));
-                break;
+    if((num1 !== null && num1 !== undefined) && operator) {
+        if (hasTypedNewNumber && numberString) {
+            num2 = Number(numberString)
+        }
+
+        if (num2 !== null && num2 !== undefined) {
+            switch(operator) {
+                case '+':
+                    result = roundResult(add(num1, num2));
+                    break;
+                case '-':
+                    result = roundResult(subtract(num1, num2));
+                    break;
+                case '*':
+                    result = roundResult(multiply(num1, num2));
+                    break;
+                case '/':
+                    result = roundResult(divide(num1, num2));
+                    break;
+            }
         }
     }
 }
@@ -106,8 +120,8 @@ function setResult() {
     if (result || result === 0) {
         numberString = ""
         num1 = result
-        num2 = null
         display.value = result
+        hasTypedNewNumber = false
     } 
 }
 
