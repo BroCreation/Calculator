@@ -69,6 +69,7 @@ function setOperator(e) {
 
     if (value === undefined) return;
 
+    // Continuous Evaluation on operation change - if operator present and num2 exists
     if (operator && hasTypedNewNumber) {
         evaluateOperation();
         setResult();

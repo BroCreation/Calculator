@@ -85,3 +85,24 @@ input[type="text"] {
 .selected {
     border: 2px solid black;
 }
+
+@media screen and (max-width: 786px) and (orientation: portrait) {
+    button {
+        font-size: 16px;
+        width: 55px;
+        height: 55px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    input[type="text"] {
+        height: 45px;
+        font-size: 18px;
+    }
+
+    .wrapper {
+        max-width: calc(55px * 4 + 6px * 3);
+    }
+}
