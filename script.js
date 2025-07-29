@@ -117,7 +117,9 @@ function roundResult(result) {
 
 function makeSelected(e) {
     removeSelectedClass()
-    e.target.classList.add('selected')
+    if (e.target.classList.contains('operation')) {
+        e.target.classList.add('selected')
+    }
 }
 
 function removeSelectedClass() {
